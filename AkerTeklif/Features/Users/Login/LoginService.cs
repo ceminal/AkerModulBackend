@@ -1,27 +1,24 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AkerTeklif.Features.Jwt;
+using Microsoft.AspNetCore.Identity;
 
 namespace AkerTeklif.Features.Users.Login
 {
-    public class LoginService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+    public class LoginService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, TokenService tokenService)
     {
-        public async Task<LoginResponse> Login(LoginDTO loginDTO)
+        public async Task<TokenResponse> Login(LoginDTO loginDTO)
         {
             var user = await userManager.FindByNameAsync(loginDTO.UserName);
-            var result = await signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
+            var result = await signInManager.CheckPasswordSignInAsync(user!, loginDTO.Password, false);
 
             if (result.Succeeded)
             {
-                return new LoginResponse
-                {
-                    Message = "Giriş başarılı"
-                };
+                var token = tokenService.GenerateToken(user!);
+                return token;
+
             }
             else
             {
-                return new LoginResponse
-                {
-                    Message = "Giriş Başarısız"
-                };
+                return new TokenResponse();
             }
         }
     }

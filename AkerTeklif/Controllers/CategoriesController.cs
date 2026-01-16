@@ -1,5 +1,7 @@
 ﻿using AkerTeklif.Features.Categories;
 using AkerTeklif.Features.Categories.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +9,7 @@ namespace AkerTeklif.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriesController(CategoryService categoryService) : ControllerBase
     {
         [HttpPost]
@@ -15,7 +18,7 @@ namespace AkerTeklif.Controllers
             await categoryService.CreateCategoryHandler(categoryDTO);
             return Ok();
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> GetCategory()
         {
