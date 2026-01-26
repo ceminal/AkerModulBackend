@@ -11,7 +11,10 @@ namespace AkerTeklif.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("sqlserver"));
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(configuration.GetConnectionString("sqlserver"));
+            }
         }
 
         public DbSet<Category> Categories { get; set; }
