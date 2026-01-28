@@ -12,7 +12,7 @@ namespace AkerTeklif.Features.Users.Login
 
             if (result.Succeeded)
             {
-                var token = tokenService.GenerateToken(user!);
+                var token = await tokenService.GenerateToken(user!);
                 return token;
 
             }

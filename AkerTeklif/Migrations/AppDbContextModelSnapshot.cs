@@ -36,7 +36,7 @@ namespace AkerTeklif.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("AkerTeklif.Features.Products.Product", b =>
@@ -67,7 +67,7 @@ namespace AkerTeklif.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("AkerTeklif.Features.Users.AppUser", b =>

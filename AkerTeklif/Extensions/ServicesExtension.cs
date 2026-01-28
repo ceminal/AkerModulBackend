@@ -11,7 +11,8 @@ namespace AkerTeklif.Extensions
 {
     public static class ServicesExtension
     {
-        public static IServiceCollection AddServices(this IServiceCollection services) {
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
             services.AddDbContext<AppDbContext>();
             services.AddIdentity<AppUser, IdentityRole<int>>(options =>
             {
@@ -21,12 +22,13 @@ namespace AkerTeklif.Extensions
                 options.Password.RequireNonAlphanumeric = false; // Özel karakter (!, @, # vb.) zorunluluğunu kaldırır
                 options.Password.RequiredLength = 3;             // Minimum şifre uzunluğunu belirler (Varsayılan 6'dır)
                 options.Password.RequiredUniqueChars = 0;        // Tekrar etmemesi gereken karakter sayısını sıfırlar
-            }).AddEntityFrameworkStores<AppDbContext>();
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             services.AddScoped<CategoryService>();
             services.AddScoped<ProductService>();
             services.AddScoped<RegisterService>();
             services.AddScoped<LoginService>();
             services.AddScoped<TokenService>();
+            services.AddScoped<UserService>();
             return services;
         }
 
