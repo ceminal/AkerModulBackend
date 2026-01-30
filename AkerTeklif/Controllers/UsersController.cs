@@ -1,4 +1,5 @@
-﻿using AkerTeklif.Features.Users;
+﻿using AkerTeklif.Features.Products;
+using AkerTeklif.Features.Users;
 using AkerTeklif.Features.Users.DTOs;
 using AkerTeklif.Features.Users.Login;
 using AkerTeklif.Features.Users.Register;
@@ -29,11 +30,27 @@ namespace AkerTeklif.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{Roles.Admin}")]
-        [HttpPost("userUpdate")]
+        [HttpPut("userUpdate")]
         public async Task<IActionResult> UpdateUser(UpdateUserDTO updateDTO)
         {
             var update = await userService.UpdateUser(updateDTO);
             return Ok(update);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await userService.GetAllUsers();
+            return Ok(users);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var response = await userService.DeleteUserHandler(id);
+            return Ok(response);
+        }
+
     }
 }
