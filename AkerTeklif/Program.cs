@@ -6,6 +6,7 @@ using AkerTeklif.Features.Users;
 using AkerTeklif.Features.Users.Login;
 using AkerTeklif.Features.Users.Register;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,5 +59,20 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        Console.WriteLine("Veritabaný baþarýyla migrate edildi.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Migration sýrasýnda hata: {ex.Message}");
+    }
+}
 
 app.Run();
