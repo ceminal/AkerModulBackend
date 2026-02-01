@@ -30,7 +30,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddServices();
 builder.Services.AddJWTService(builder.Configuration);
 var app = builder.Build();
-// CORS politikasýný burada aktif et
+app.UseHttpsRedirection();
+// CORS
 app.UseCors("AllowReactApp");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference(x => x.Theme = ScalarTheme.BluePlanet);
 }
 
-app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
