@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
             policy.SetIsOriginAllowed(origin => true)
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowAnyOrigin();
+                  .WithOrigins(builder.Configuration["AllowedOrigins"]!);
         });
 });
 
