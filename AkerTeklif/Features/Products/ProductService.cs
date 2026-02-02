@@ -12,6 +12,7 @@ namespace AkerTeklif.Features.Products
             Product product = new Product
             {
                 CategoryId = productDTO.CategoryId,
+                Stock = productDTO.Stock,
                 Name = productDTO.Name,
                 Image = productDTO.Image,
                 Price = productDTO.Price,
@@ -24,10 +25,12 @@ namespace AkerTeklif.Features.Products
 
         public async Task<List<GetProductDTO>> GetProductHandler()
         {
-            var products = await context.Products.ToListAsync();
+            var products = await context.Products.Include(x => x.Category).ToListAsync();
             var productsDTO = products.Select(x => new GetProductDTO
             {
                 CategoryId = x.CategoryId,
+                CategoryName = x.Category.Name,
+                Stock = x.Stock,
                 Name = x.Name,
                 Image = x.Image,
                 Price = x.Price,
@@ -51,6 +54,7 @@ namespace AkerTeklif.Features.Products
             {
                 CategoryId = updateProductDTO.CategoryId,
                 Name = updateProductDTO.Name,
+                Stock = updateProductDTO.Stock,
                 Image = updateProductDTO.Image,
                 Price = updateProductDTO.Price,
                 Details = updateProductDTO.Details,
