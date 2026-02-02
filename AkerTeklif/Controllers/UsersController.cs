@@ -37,7 +37,7 @@ namespace AkerTeklif.Controllers
             return Ok(update);
         }
 
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{Roles.Admin}")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -45,6 +45,7 @@ namespace AkerTeklif.Controllers
             return Ok(users);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = $"{Roles.Admin}")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

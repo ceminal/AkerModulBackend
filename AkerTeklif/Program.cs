@@ -27,14 +27,14 @@ var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<stri
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.SetIsOriginAllowed(origin => true)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .WithOrigins(allowedOrigins!);
-        });
+    options.AddPolicy("AllowReactApp", opts =>
+    {
+
+        opts.AllowAnyHeader();
+        opts.AllowAnyMethod();
+        opts.WithOrigins(allowedOrigins!);
+    });
+
 });
 
 // Add services to the container.
