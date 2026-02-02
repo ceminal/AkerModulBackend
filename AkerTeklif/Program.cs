@@ -23,6 +23,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 //                  .AllowCredentials(); 
 //        });
 //});
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
 builder.Services.AddCors(options =>
 {
@@ -32,7 +33,7 @@ builder.Services.AddCors(options =>
             policy.SetIsOriginAllowed(origin => true)
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .WithOrigins(builder.Configuration["AllowedOrigins"]!);
+                  .WithOrigins(allowedOrigins!);
         });
 });
 
