@@ -23,19 +23,33 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 //                  .AllowCredentials(); 
 //        });
 //});
-var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+//var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
-builder.Services.AddCors(options =>
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowReactApp", opts =>
+//    {
+
+//        opts.AllowAnyHeader();
+//        opts.AllowAnyMethod();
+//        opts.WithOrigins(allowedOrigins!);
+//    });
+
+//});
+
+var configValue = builder.Configuration.GetValue<string>("AllowedOrigins");
+string[] allowedOrigins;
+
+if (!string.IsNullOrEmpty(configValue))
 {
-    options.AddPolicy("AllowReactApp", opts =>
-    {
-
-        opts.AllowAnyHeader();
-        opts.AllowAnyMethod();
-        opts.WithOrigins(allowedOrigins!);
-    });
-
-});
+    // Eðer dolu geldiyse (Docker'dan virgüllü gelmiþtir), virgüllerden böl
+    allowedOrigins = configValue.Split(",", StringSplitOptions.RemoveEmptyEntries);
+}
+else
+{
+    // String boþsa, belki appsettings.json içinde Array (Dizi) olarak tanýmlýdýr, öyle çek
+    allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+}
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -23,6 +23,7 @@ namespace AkerTeklif.Features.Categories
             {
                 Id = x.Id,
                 Name = x.Name,
+                ParentCategoryId = x.ParentCategoryId
             }).ToList();
 
             return categoriesDTO;
