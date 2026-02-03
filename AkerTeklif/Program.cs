@@ -37,19 +37,22 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 //});
 
-var configValue = builder.Configuration.GetValue<string>("AllowedOrigins");
-string[] allowedOrigins;
+var sabitAdresler = new string[]
+{
+    "https://beta.akeryapi.com.tr",
+    "http://localhost:3000",
+};
 
-if (!string.IsNullOrEmpty(configValue))
+builder.Services.AddCors(options =>
 {
-    // Eðer dolu geldiyse (Docker'dan virgüllü gelmiþtir), virgüllerden böl
-    allowedOrigins = configValue.Split(",", StringSplitOptions.RemoveEmptyEntries);
-}
-else
-{
-    // String boþsa, belki appsettings.json içinde Array (Dizi) olarak tanýmlýdýr, öyle çek
-    allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-}
+    options.AddPolicy("AllowReactApp", opts =>
+    {
+        opts.WithOrigins(sabitAdresler) // <-- Direkt listeyi verdik
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
