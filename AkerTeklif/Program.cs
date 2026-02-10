@@ -23,17 +23,35 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 //                  .AllowCredentials(); 
 //        });
 //});
+//var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowReactApp", opts =>
+//    {
+
+//        opts.AllowAnyHeader();
+//        opts.AllowAnyMethod();
+//        opts.WithOrigins(allowedOrigins!);
+//    });
+
+//});
+
+var sabitAdresler = new string[]
+{
+    "https://beta.akeryapi.com.tr",
+    "http://localhost:3000",
+};
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.SetIsOriginAllowed(origin => true)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowAnyOrigin();
-        });
+    options.AddPolicy("AllowReactApp", opts =>
+    {
+        opts.WithOrigins(sabitAdresler) // <-- Direkt listeyi verdik
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
 
 // Add services to the container.
